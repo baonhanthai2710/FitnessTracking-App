@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "242834584061",
+    "project_id": "eventappointment-4c823",
+    "storage_bucket": "eventappointment-4c823.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242834584061:android:8dab68f2e5ee1c5b892994",
+        "android_client_info": {
+          "package_name": "com.example.fitnesstrackingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoZTomYwmsw53_3nyZ5APnFB2GKh8oST0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

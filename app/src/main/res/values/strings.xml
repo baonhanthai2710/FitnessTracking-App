@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">FitnessTracking App</string>
+    <string name="app_name">appointment</string>
+    <string name="delete_task">Delete Event</string>
+    <string name="desc">List Event</string>
+    <string name="back">Back</string>
 </resources>
