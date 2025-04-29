@@ -2,6 +2,7 @@ package com.example.fitnesstrackingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.*;
@@ -37,8 +38,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btnSync).setOnClickListener(v -> {
-            List<Event> Events = localHelper.readEvents();
-            fbHelper.syncEvents(Events);
+            // Đảm bảo đọc lại dữ liệu mới nhất từ local
+            List<Event> events = localHelper.readEvents();
+
+            if (events.isEmpty()) {
+                Toast.makeText(this, "Không có dữ liệu để đồng bộ", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Hiển thị progress bar
+            ProgressBar progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+
+            fbHelper.syncEvents(events);
         });
 
         findViewById(R.id.btnViewLocal).setOnClickListener(v ->

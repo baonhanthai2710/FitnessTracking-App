@@ -2,10 +2,14 @@ package com.example.fitnesstrackingapp;
 
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.*;
 
 import java.util.*;
@@ -16,21 +20,48 @@ public class FirebaseHelper {
 
     public FirebaseHelper(Context context) {
         this.context = context;
-        dbRef = FirebaseDatabase.getInstance().getReference("events");
+
+        // Đảm bảo khởi tạo FirebaseApp trước
+        if (FirebaseApp.getApps(context).isEmpty()) {
+            FirebaseApp.initializeApp(context);
+        }
+
+        // Sử dụng database URL từ Firebase Console
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database.setPersistenceEnabled(true); // Bật chế độ offline
+        dbRef = database.getReference("events");
     }
 
     // Sync tasks lên Firebase với listener
     public void syncEvents(List<Event> events) {
+        // Kiểm tra kết nối mạng
+        if (!isNetworkAvailable()) {
+            Toast.makeText(context, "Không có kết nối Internet", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         for (Event t : events) {
+            // Thêm debug log
+            Log.d("FIREBASE_SYNC", "Attempting to sync event: " + t.getId());
+
             dbRef.child(t.getId())
                     .setValue(t)
-                    .addOnSuccessListener(aVoid ->
-                            Toast.makeText(context, "Đã sync: " + t.getTitle(), Toast.LENGTH_SHORT).show()
-                    )
-                    .addOnFailureListener(e ->
-                            Toast.makeText(context, "Lỗi sync: " + e.getMessage(), Toast.LENGTH_LONG).show()
-                    );
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("FIREBASE_SYNC", "Sync success: " + t.getId());
+                        Toast.makeText(context, "Đã sync: " + t.getTitle(), Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("FIREBASE_SYNC", "Sync error: " + e.getMessage(), e);
+                        Toast.makeText(context, "Lỗi sync: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    });
         }
+    }
+
+    // Hàm kiểm tra kết nối mạng
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnected();
     }
 
     // Xóa task theo ID

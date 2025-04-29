@@ -1,5 +1,6 @@
 package com.example.fitnesstrackingapp;
 
+
 public class Event {
     private String id;
     private String title;
@@ -29,5 +30,3 @@ public class Event {
     public long getTimestamp() { return timestamp; }
     public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
 }
-
-
