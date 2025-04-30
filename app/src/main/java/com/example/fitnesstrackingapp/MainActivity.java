@@ -1,14 +1,21 @@
 package com.example.fitnesstrackingapp;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText etTitle, etDesc;
+    private TextView tvSelectedTime;
+    private Calendar calendar;
+    private Spinner spType;
+    private EditText etTitle, etDesc, etLocation;
     private InternalStorageHelper localHelper;
     private FirebaseHelper fbHelper;
 
@@ -19,12 +26,22 @@ public class MainActivity extends AppCompatActivity {
 
         etTitle = findViewById(R.id.etTitle);
         etDesc  = findViewById(R.id.etDesc);
+        etLocation = findViewById(R.id.etLocation);
         localHelper = new InternalStorageHelper(this);
         fbHelper    = new FirebaseHelper(this);
+        tvSelectedTime = findViewById(R.id.tvSelectedTime);
+        calendar = Calendar.getInstance();
+        spType = findViewById(R.id.spType);
+        Button btnPickDateTime = findViewById(R.id.btnPickDateTime);
+
+        // Xử lý chọn thời gian
+        btnPickDateTime.setOnClickListener(v -> showDateTimePicker());
 
         findViewById(R.id.btnSaveLocal).setOnClickListener(v -> {
             String title = etTitle.getText().toString().trim();
             String desc  = etDesc.getText().toString().trim();
+            String location = etLocation.getText().toString().trim();
+            String type = spType.getSelectedItem().toString();
             if (title.isEmpty() || desc.isEmpty()) {
                 Toast.makeText(this,"Vui lòng nhập đủ tiêu đề & mô tả",Toast.LENGTH_SHORT).show();
                 return;
@@ -32,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             List<Event> Events = localHelper.readEvents();
             String id = UUID.randomUUID().toString();
             long ts   = System.currentTimeMillis();
-            Events.add(new Event(id, title, desc, ts));
+            Events.add(new Event(id, title, desc,location, type, ts));
             localHelper.saveEvents(Events);
             Toast.makeText(this,"Đã lưu cục bộ",Toast.LENGTH_SHORT).show();
         });
@@ -59,5 +76,29 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnViewFirebase).setOnClickListener(v ->
                 startActivity(new Intent(this, ViewFirebaseEventsActivity.class))
         );
+    }
+    private void showDateTimePicker() {
+        calendar = Calendar.getInstance();
+        DatePickerDialog datePicker = new DatePickerDialog(this, (view, year, month, day) -> {
+            calendar.set(year, month, day);
+            showTimePicker();
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        datePicker.show();
+    }
+
+    private void showTimePicker() {
+        TimePickerDialog timePicker = new TimePickerDialog(this, (view, hour, minute) -> {
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            calendar.set(Calendar.MINUTE, minute);
+            updateSelectedTimeDisplay();
+        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
+
+        timePicker.show();
+    }
+
+    private void updateSelectedTimeDisplay() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        tvSelectedTime.setText(sdf.format(calendar.getTime()));
     }
 }

@@ -3,4 +3,8 @@
     <string name="delete_task">Delete Event</string>
     <string name="desc">List Event</string>
     <string name="back">Back</string>
+    <string-array name="event_types">
+        <item>Sự kiện</item>
+        <item>Cuộc hẹn bác sĩ</item>
+    </string-array>
 </resources>

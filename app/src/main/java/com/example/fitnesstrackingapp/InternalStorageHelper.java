@@ -23,8 +23,14 @@ public class InternalStorageHelper {
             JSONArray arr = new JSONArray(sb.toString());
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject o = arr.getJSONObject(i);
-                events.add(new Event(o.getString("id"), o.getString("title"),
-                        o.getString("time"), o.getLong("timestamp")));
+                events.add(new Event(
+                        o.getString("id"),
+                        o.getString("title"),
+                        o.getString("description"),
+                        o.getString("location"),
+                        o.getString("type"),
+                        o.getLong("timestamp")
+                ));
             }
             // sort by timestamp desc
             Collections.sort(events, (a,b) -> Long.compare(b.getTimestamp(), a.getTimestamp()));
@@ -43,7 +49,9 @@ public class InternalStorageHelper {
                 JSONObject o = new JSONObject();
                 o.put("id", t.getId());
                 o.put("title", t.getTitle());
-                o.put("time", t.getTime());
+                o.put("description", t.getDescription());
+                o.put("location", t.getLocation());
+                o.put("type", t.getType());
                 o.put("timestamp", t.getTimestamp());
                 arr.put(o);
             }

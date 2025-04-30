@@ -59,6 +59,12 @@
             android:clipToPadding="false"
             android:paddingBottom="8dp"
             android:contentDescription="@string/desc"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bấm vào event để xem chi tiết" />
     </LinearLayout>
 
 

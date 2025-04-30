@@ -1,5 +1,6 @@
 package com.example.fitnesstrackingapp;
 
+import android.content.Intent;
 import android.view.*;
 import android.widget.*;
 import androidx.annotation.*;
@@ -54,10 +55,15 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>
     public void onBindViewHolder(@NonNull ViewHolder h, int pos) {
         Event t = events.get(pos);
         h.tvTitle.setText(t.getTitle());
-        h.tvDesc .setText(t.getTime());
+        h.tvDesc .setText(t.getDescription());
         h.tvTime .setText(new SimpleDateFormat("dd/MM/yyyy HH:mm",
                 Locale.getDefault()).format(new Date(t.getTimestamp())));
         h.btnDelete.setOnClickListener(v -> actionListener.onDelete(t));
+        h.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), EventDetailActivity.class);
+            intent.putExtra("event", events.get(pos));
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override
