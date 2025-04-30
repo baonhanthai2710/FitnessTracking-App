@@ -79,7 +79,8 @@
                 android:id="@+id/spType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/event_types"/>
+                android:entries="@array/event_types"
+                android:minHeight="48dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

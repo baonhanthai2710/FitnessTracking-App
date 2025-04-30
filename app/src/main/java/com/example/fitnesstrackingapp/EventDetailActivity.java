@@ -9,6 +9,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.chip.Chip;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -22,7 +24,7 @@ public class EventDetailActivity extends AppCompatActivity {
         Event event = (Event) getIntent().getSerializableExtra("event");
 
         TextView tvTitle = findViewById(R.id.tvTitle);
-        TextView tvType = findViewById(R.id.tvType);
+        Chip chipEventType = findViewById(R.id.chipEventType); // Thay đổi ở đây
         TextView tvDateTime = findViewById(R.id.tvDateTime);
         TextView tvLocation = findViewById(R.id.tvLocation);
         TextView tvDescription = findViewById(R.id.tvDescription);
@@ -33,9 +35,9 @@ public class EventDetailActivity extends AppCompatActivity {
 
         // Hiển thị dữ liệu
         tvTitle.setText(event.getTitle());
-        tvType.setText("Loại: " + (event.getType().equals("appointment") ? "Hẹn bác sĩ" : "Sự kiện"));
+        chipEventType.setText(event.getType().equals("appointment") ? "HẸN BÁC SĨ" : "SỰ KIỆN"); // Sửa ở đây
         tvDateTime.setText(formattedTime);
-        tvLocation.setText("Địa điểm: " + event.getLocation());
+        tvLocation.setText(event.getLocation()); // Đã remove prefix "Địa điểm:"
         tvDescription.setText(event.getDescription());
     }
 }

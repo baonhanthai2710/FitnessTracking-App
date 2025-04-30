@@ -29,6 +29,7 @@
     <!-- Màu nhấn (Accent Colors) -->
     <color name="accent_red">#FF5252</color>
     <color name="accent_blue">#448AFF</color>
+    <color name="outline">#448AFF</color>
     <color name="accent_green">#69F0AE</color>
     <color name="accent_orange">#FFAB40</color>
 
@@ -41,4 +42,8 @@
     <color name="deep_blue">#283593</color>
     <color name="teal">#009688</color>
     <color name="sunset_orange">#FF7043</color>
+    <!-- Material 3 Color Scheme -->
+    <color name="surfaceContainer">#FEFBFF</color>
+    <color name="on_surface_variant">#45464F</color>
+    <color name="secondary_container">#E8DEF8</color>
 </resources>
