@@ -15,20 +15,25 @@ import com.google.firebase.database.*;
 import java.util.*;
 
 public class FirebaseHelper {
+    private static FirebaseDatabase database; // Dùng static instance
     private DatabaseReference dbRef;
     private Context context;
 
     public FirebaseHelper(Context context) {
         this.context = context;
 
-        // Đảm bảo khởi tạo FirebaseApp trước
-        if (FirebaseApp.getApps(context).isEmpty()) {
-            FirebaseApp.initializeApp(context);
+//        // Đảm bảo khởi tạo FirebaseApp trước
+//        if (FirebaseApp.getApps(context).isEmpty()) {
+//            FirebaseApp.initializeApp(context);
+//        }
+//
+//        // Sử dụng database URL từ Firebase Console
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        database.setPersistenceEnabled(true); // Bật chế độ offline
+        // Đảm bảo chỉ khởi tạo 1 lần
+        if (database == null) {
+            database = FirebaseDatabase.getInstance();
         }
-
-        // Sử dụng database URL từ Firebase Console
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        database.setPersistenceEnabled(true); // Bật chế độ offline
         dbRef = database.getReference("events");
     }
 

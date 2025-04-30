@@ -24,7 +24,8 @@ public class ViewFirebaseEventsActivity extends AppCompatActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         toolbar.setNavigationOnClickListener(v -> finish());                  // trả về Activity trước đó :contentReference[oaicite:6]{index=6}
 
-        fbHelper = new FirebaseHelper(this);
+            // Sử dụng Application Context
+        fbHelper = new FirebaseHelper(getApplicationContext());
         fbHelper.fetchEvents(new FirebaseHelper.DataStatus() {
             @Override
             public void onSuccess(List<Event> events) {
