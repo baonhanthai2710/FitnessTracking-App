@@ -1,6 +1,9 @@
 package com.example.fitnesstrackingapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +22,20 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        
+        // Add button for gallery
+        Button galleryButton = findViewById(R.id.gallery_button);
+        galleryButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MediaGalleryActivity.class);
+            startActivity(intent);
+        });
+        
+        // Add button for cloud storage
+        Button cloudButton = findViewById(R.id.cloud_button);
+        cloudButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CloudStorageActivity.class);
+            startActivity(intent);
         });
     }
 }

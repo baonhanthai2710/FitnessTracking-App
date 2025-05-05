@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">FitnessTracking App</string>
+    <string name="media_gallery">Media Gallery</string>
+    <string name="gallery_title">Fitness Photo Gallery</string>
+    <string name="cloud_storage">Cloud Storage</string>
+    <string name="upload_file">Upload File</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="upload_document">Upload Document</string>
+    <string name="upload_progress">Upload Progress Report</string>
+    <string name="share">Share</string>
+    <string name="delete">Delete</string>
+    <string name="download">Download</string>
+    <string name="uploading">Uploading...</string>
+    <string name="upload_success">Upload successful</string>
+    <string name="upload_error">Upload failed</string>
+    <string name="select_file_type">Select File Type</string>
 </resources>
