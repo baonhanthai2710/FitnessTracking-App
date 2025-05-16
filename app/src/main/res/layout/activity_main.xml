@@ -9,206 +9,51 @@
     android:background="@drawable/img"
     tools:context=".MainActivity">
 
-    <!-- Toolbar ở trên cùng -->
+    <!-- Toolbar at the top -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="?attr/colorPrimary"
-        android:title="Fitness Tracking App"
-        android:titleTextColor="@android:color/white"
+        app:title="Fitness Tracking App"
+        app:titleTextColor="@android:color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <!-- Dùng ScrollView để đảm bảo với nhiều trường hợp nội dung sẽ cuộn được -->
-    <ScrollView
-        android:id="@+id/scrollView"
+    <!-- Tab Layout -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:tabTextColor="@android:color/white"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabMode="fixed"
+        app:layout_constraintTop_toBottomOf="@id/topAppBar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <!-- ViewPager to host the fragments -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/topAppBar"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp"
-            android:background="@android:color/transparent">
-
-            <!-- Welcome Text from Version 1 -->
-            <TextView
-                android:id="@+id/welcome_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fitness Tracking App"
-                android:textSize="24sp"
-                android:gravity="center"
-                android:layout_marginBottom="16dp"/>
-
-            <!-- Media Section Buttons from Version 1 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="24dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Media Management"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_marginBottom="8dp"/>
-
-                <Button
-                    android:id="@+id/gallery_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/media_gallery"
-                    android:layout_marginBottom="8dp"/>
-
-                <Button
-                    android:id="@+id/cloud_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cloud_storage"/>
-            </LinearLayout>
-
-            <!-- Event Management Section from Version 2 -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Event Management"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginBottom="8dp"/>
-
-            <!-- Title Input -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="@color/primary_dark"
-                android:layout_marginBottom="16dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Tiêu đề event/appointment"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Description Input -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="@color/primary_dark"
-                android:layout_marginBottom="24dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Mô tả"
-                    android:minLines="3"
-                    android:gravity="top"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="@color/primary_dark"
-                android:layout_marginBottom="16dp">
-
-                <Spinner
-                    android:id="@+id/spType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/event_types"
-                    android:minHeight="48dp"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="@color/primary_dark"
-                android:layout_marginBottom="16dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etLocation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Địa điểm"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- DateTime Picker -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-
-                <Button
-                    android:id="@+id/btnPickDateTime"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Chọn thời gian"/>
-
-                <TextView
-                    android:id="@+id/tvSelectedTime"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="8dp"/>
-            </LinearLayout>
-
-            <!-- Event Management Buttons -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSaveLocal"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="Lưu trên máy"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSync"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="Đưa lên cloud(Lưu dài hạn)"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnViewLocal"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="Xem Event/Appointment trên máy"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnViewFirebase"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="Xem event/appointment trên cloud"/>
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone"/>
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintRight_toRightOf="parent"/>
+        
+    <!-- Keep ProgressBar at the root level so it can appear over any tab -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+        
 </androidx.constraintlayout.widget.ConstraintLayout>

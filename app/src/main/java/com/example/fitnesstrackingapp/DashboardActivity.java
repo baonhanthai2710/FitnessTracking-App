@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import static com.example.fitnesstrackingapp.MainActivity.KEY_STEP_HISTORY;
-import static com.example.fitnesstrackingapp.MainActivity.KEY_PREVIOUS_TOTAL_STEPS;
+
+import static com.example.fitnesstrackingapp.Constants.KEY_STEP_HISTORY;
+import static com.example.fitnesstrackingapp.Constants.KEY_PREVIOUS_TOTAL_STEPS;
+import static com.example.fitnesstrackingapp.Constants.PREFS_NAME;
 
 public class DashboardActivity extends AppCompatActivity {
 

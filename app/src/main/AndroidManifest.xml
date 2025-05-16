@@ -9,6 +9,10 @@
     <!-- Internet permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
+    <!-- Step counter and fitness tracking permissions -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_HEALTH" />
 
     <application
         android:name=".MyFirebaseApp"
@@ -21,6 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessTrackingApp"
         tools:targetApi="31">
+        
+        <!-- Event Management Activities -->
         <activity
             android:name=".EventDetailActivity"
             android:exported="false" />
@@ -33,6 +39,23 @@
         <activity
             android:name=".ViewLocalEventsActivity"
             android:exported="false" />
+            
+        <!-- Fitness/Dashboard Activities -->
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="false" />
+            
+        <!-- Media Activities -->
+        <activity
+            android:name=".MediaGalleryActivity"
+            android:exported="false"
+            android:label="@string/media_gallery" />
+        <activity
+            android:name=".CloudStorageActivity"
+            android:exported="false"
+            android:label="@string/cloud_storage" />
+            
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -42,15 +65,10 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".MediaGalleryActivity"
-            android:exported="false"
-            android:label="@string/media_gallery" />
-
-        <activity
-            android:name=".CloudStorageActivity"
-            android:exported="false"
-            android:label="@string/cloud_storage" />
+        <!-- Services -->
+        <service
+            android:name=".StepCounterService"
+            android:foregroundServiceType="health" />
     </application>
 
 </manifest>

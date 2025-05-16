@@ -1,143 +1,196 @@
 package com.example.fitnesstrackingapp;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.content.Intent;
+import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.*;
+import android.util.Log;
+import android.widget.ProgressBar;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
-public class MainActivity extends AppCompatActivity {
-    private TextView tvSelectedTime;
-    private Calendar calendar;
-    private Spinner spType;
-    private EditText etTitle, etDesc, etLocation;
-    private InternalStorageHelper localHelper;
-    private FirebaseHelper fbHelper;
+import java.time.LocalDate;
+import static android.content.ContentValues.TAG;
+import static android.os.Build.VERSION;
+import static android.os.Build.VERSION_CODES;
 
+import static com.example.fitnesstrackingapp.Constants.PREFS_NAME;
+import static com.example.fitnesstrackingapp.Constants.STEPS_TODAY_KEY;
+import static com.example.fitnesstrackingapp.Constants.STEPS_OFFSET_KEY;
+import static com.example.fitnesstrackingapp.Constants.LAST_RESET_DATE_KEY;
+
+
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
+    // Step Counter Variables
+    private SensorManager sensorManager;
+    private Sensor stepCounterSensor;
+    private boolean isStepCounterSensorPresent;
+    private int stepsToday = 0;
+    private int totalStepsFromSensor = 0;
+    private int previousTotalStepsFromSensor = 0;
+    private int stepsOffset = 0;
+    private SharedPreferences prefs;
+    private String currentDate;
+    private static final String PREFS_NAME = "StepCounterPrefs";
+    private static final String STEPS_TODAY_KEY = "steps_today";
+    private static final String STEPS_OFFSET_KEY = "steps_offset";
+    private static final String LAST_RESET_DATE_KEY = "last_reset_date";
+    
+    // Tabs & ViewPager
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager;
+    private TabPagerAdapter adapter;
+    private DashboardFragment dashboardFragment;
+    
+    // Progress bar
+    private ProgressBar progressBar;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        // Enable edge-to-edge display from version 1
-        EdgeToEdge.enable(this);
-        
         setContentView(R.layout.activity_main);
         
-        // Apply window insets from version 1
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-        // Initialize form elements from version 2
-        etTitle = findViewById(R.id.etTitle);
-        etDesc = findViewById(R.id.etDesc);
-        etLocation = findViewById(R.id.etLocation);
-        tvSelectedTime = findViewById(R.id.tvSelectedTime);
-        calendar = Calendar.getInstance();
-        spType = findViewById(R.id.spType);
-        Button btnPickDateTime = findViewById(R.id.btnPickDateTime);
+        // Initialize progress bar
+        progressBar = findViewById(R.id.progressBar);
         
-        // Initialize helpers from version 2
-        localHelper = new InternalStorageHelper(this);
-        fbHelper = new FirebaseHelper(this);
-
-        // Media management buttons from version 1
-        Button galleryButton = findViewById(R.id.gallery_button);
-        galleryButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MediaGalleryActivity.class);
-            startActivity(intent);
-        });
+        // Initialize ViewPager and TabLayout
+        viewPager = findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tabLayout);
         
-        Button cloudButton = findViewById(R.id.cloud_button);
-        cloudButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, CloudStorageActivity.class);
-            startActivity(intent);
-        });
-
-        // Date/time picker from version 2
-        btnPickDateTime.setOnClickListener(v -> showDateTimePicker());
-
-        // Event save and sync functionality from version 2
-        findViewById(R.id.btnSaveLocal).setOnClickListener(v -> {
-            String title = etTitle.getText().toString().trim();
-            String desc = etDesc.getText().toString().trim();
-            String location = etLocation.getText().toString().trim();
-            String type = spType.getSelectedItem().toString();
+        // Set up ViewPager adapter
+        adapter = new TabPagerAdapter(this);
+        viewPager.setAdapter(adapter);
+        
+        // Connect TabLayout with ViewPager
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText("Dashboard");
+                    break;
+                case 1:
+                    tab.setText("Quick Access");
+                    break;
+                case 2:
+                    tab.setText("Events");
+                    break;
+            }
+        }).attach();
+        
+        // Step counter initialization
+        prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+            currentDate = getCurrentDate();
+        }
+        
+        loadStepData(); // Load saved step data
+        
+        // Initialize step sensor
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null) {
+            stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+            isStepCounterSensorPresent = true;
+        }
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isStepCounterSensorPresent) {
+            sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (isStepCounterSensorPresent) {
+            sensorManager.unregisterListener(this);
+        }
+    }
+    
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+            totalStepsFromSensor = (int) event.values[0];
             
-            if (title.isEmpty() || desc.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập đủ tiêu đề & mô tả", Toast.LENGTH_SHORT).show();
-                return;
+            // Check if we need to reset the step counter for a new day
+            if (VERSION.SDK_INT >= VERSION_CODES.O) {
+                String today = getCurrentDate();
+                if (!today.equals(currentDate)) {
+                    // A new day has started
+                    stepsOffset = totalStepsFromSensor - stepsToday;
+                    saveStepData(0, stepsOffset);
+                    currentDate = today;
+                    stepsToday = 0;
+                }
             }
             
-            List<Event> Events = localHelper.readEvents();
-            String id = UUID.randomUUID().toString();
-            long ts = System.currentTimeMillis();
-            Events.add(new Event(id, title, desc, location, type, ts));
-            localHelper.saveEvents(Events);
-            Toast.makeText(this, "Đã lưu cục bộ", Toast.LENGTH_SHORT).show();
-        });
-
-        findViewById(R.id.btnSync).setOnClickListener(v -> {
-            // Đảm bảo đọc lại dữ liệu mới nhất từ local
-            List<Event> events = localHelper.readEvents();
-
-            if (events.isEmpty()) {
-                Toast.makeText(this, "Không có dữ liệu để đồng bộ", Toast.LENGTH_SHORT).show();
-                return;
+            // Calculate today's steps by subtracting the offset
+            stepsToday = totalStepsFromSensor - stepsOffset;
+            
+            // Update dashboard fragment if it's visible
+            updateDashboardFragment();
+            
+            // Save the current step count
+            saveStepData(stepsToday, stepsOffset);
+        }
+    }
+    
+    private void updateDashboardFragment() {
+        // Find the current dashboard fragment to update its UI
+        int currentIndex = viewPager.getCurrentItem();
+        if (currentIndex == 0) { // Dashboard is the first tab
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag("f0");
+            if (fragment instanceof DashboardFragment) {
+                ((DashboardFragment) fragment).updateStepCounter(stepsToday);
+                ((DashboardFragment) fragment).updateTotalSteps(totalStepsFromSensor);
             }
-
-            // Hiển thị progress bar
-            ProgressBar progressBar = findViewById(R.id.progressBar);
-            progressBar.setVisibility(View.VISIBLE);
-
-            fbHelper.syncEvents(events);
-        });
+        }
+    }
+    
+    private void loadStepData() {
+        stepsToday = prefs.getInt(STEPS_TODAY_KEY, 0);
+        stepsOffset = prefs.getInt(STEPS_OFFSET_KEY, 0);
+        String lastResetDate = prefs.getString(LAST_RESET_DATE_KEY, "");
         
-        // View event buttons from version 2
-        findViewById(R.id.btnViewLocal).setOnClickListener(v ->
-                startActivity(new Intent(this, ViewLocalEventsActivity.class))
-        );
-        
-        findViewById(R.id.btnViewFirebase).setOnClickListener(v ->
-                startActivity(new Intent(this, ViewFirebaseEventsActivity.class))
-        );
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+            String today = getCurrentDate();
+            if (!lastResetDate.equals(today)) {
+                // It's a new day, reset the step counter
+                stepsToday = 0;
+                saveStepData(stepsToday, stepsOffset);
+                currentDate = today;
+            }
+        }
     }
-
-    // Date/time picker methods from version 2
-    private void showDateTimePicker() {
-        calendar = Calendar.getInstance();
-        DatePickerDialog datePicker = new DatePickerDialog(this, (view, year, month, day) -> {
-            calendar.set(year, month, day);
-            showTimePicker();
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-
-        datePicker.show();
+    
+    private void saveStepData(int steps, int offset) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(STEPS_TODAY_KEY, steps);
+        editor.putInt(STEPS_OFFSET_KEY, offset);
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+            editor.putString(LAST_RESET_DATE_KEY, getCurrentDate());
+        }
+        editor.apply();
     }
-
-    private void showTimePicker() {
-        TimePickerDialog timePicker = new TimePickerDialog(this, (view, hour, minute) -> {
-            calendar.set(Calendar.HOUR_OF_DAY, hour);
-            calendar.set(Calendar.MINUTE, minute);
-            updateSelectedTimeDisplay();
-        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
-
-        timePicker.show();
+    
+    private String getCurrentDate() {
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+            return LocalDate.now().toString();
+        }
+        return "";
     }
-
-    private void updateSelectedTimeDisplay() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-        tvSelectedTime.setText(sdf.format(calendar.getTime()));
+    
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Not used
     }
 }
