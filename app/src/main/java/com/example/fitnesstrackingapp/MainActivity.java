@@ -1,18 +1,17 @@
 package com.example.fitnesstrackingapp;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
-import androidx.activity.EdgeToEdge;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,55 +25,69 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseHelper fbHelper;
 
     @Override
-    protected void onCreate(Bundle s) {
-        super.onCreate(s);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        // Enable edge-to-edge display from version 1
+        EdgeToEdge.enable(this);
+        
         setContentView(R.layout.activity_main);
+        
+        // Apply window insets from version 1
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
+        // Initialize form elements from version 2
         etTitle = findViewById(R.id.etTitle);
-        etDesc  = findViewById(R.id.etDesc);
+        etDesc = findViewById(R.id.etDesc);
         etLocation = findViewById(R.id.etLocation);
-        localHelper = new InternalStorageHelper(this);
-        fbHelper    = new FirebaseHelper(this);
         tvSelectedTime = findViewById(R.id.tvSelectedTime);
         calendar = Calendar.getInstance();
         spType = findViewById(R.id.spType);
         Button btnPickDateTime = findViewById(R.id.btnPickDateTime);
-
-        // Xử lý chọn thời gian
-        btnPickDateTime.setOnClickListener(v -> showDateTimePicker());
-
-        findViewById(R.id.btnSaveLocal).setOnClickListener(v -> {
-            String title = etTitle.getText().toString().trim();
-            String desc  = etDesc.getText().toString().trim();
-            String location = etLocation.getText().toString().trim();
-            String type = spType.getSelectedItem().toString();
-            if (title.isEmpty() || desc.isEmpty()) {
-                Toast.makeText(this,"Vui lòng nhập đủ tiêu đề & mô tả",Toast.LENGTH_SHORT).show();
-                return;
-            }
-            List<Event> Events = localHelper.readEvents();
-            String id = UUID.randomUUID().toString();
-            long ts   = System.currentTimeMillis();
-            Events.add(new Event(id, title, desc,location, type, ts));
-            localHelper.saveEvents(Events);
-            Toast.makeText(this,"Đã lưu cục bộ",Toast.LENGTH_SHORT).show();
-        });
-<<<<<<< HEAD
         
-        // Add button for gallery
+        // Initialize helpers from version 2
+        localHelper = new InternalStorageHelper(this);
+        fbHelper = new FirebaseHelper(this);
+
+        // Media management buttons from version 1
         Button galleryButton = findViewById(R.id.gallery_button);
         galleryButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, MediaGalleryActivity.class);
             startActivity(intent);
         });
         
-        // Add button for cloud storage
         Button cloudButton = findViewById(R.id.cloud_button);
         cloudButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, CloudStorageActivity.class);
             startActivity(intent);
         });
-=======
+
+        // Date/time picker from version 2
+        btnPickDateTime.setOnClickListener(v -> showDateTimePicker());
+
+        // Event save and sync functionality from version 2
+        findViewById(R.id.btnSaveLocal).setOnClickListener(v -> {
+            String title = etTitle.getText().toString().trim();
+            String desc = etDesc.getText().toString().trim();
+            String location = etLocation.getText().toString().trim();
+            String type = spType.getSelectedItem().toString();
+            
+            if (title.isEmpty() || desc.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập đủ tiêu đề & mô tả", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            
+            List<Event> Events = localHelper.readEvents();
+            String id = UUID.randomUUID().toString();
+            long ts = System.currentTimeMillis();
+            Events.add(new Event(id, title, desc, location, type, ts));
+            localHelper.saveEvents(Events);
+            Toast.makeText(this, "Đã lưu cục bộ", Toast.LENGTH_SHORT).show();
+        });
 
         findViewById(R.id.btnSync).setOnClickListener(v -> {
             // Đảm bảo đọc lại dữ liệu mới nhất từ local
@@ -91,15 +104,18 @@ public class MainActivity extends AppCompatActivity {
 
             fbHelper.syncEvents(events);
         });
-
+        
+        // View event buttons from version 2
         findViewById(R.id.btnViewLocal).setOnClickListener(v ->
                 startActivity(new Intent(this, ViewLocalEventsActivity.class))
         );
+        
         findViewById(R.id.btnViewFirebase).setOnClickListener(v ->
                 startActivity(new Intent(this, ViewFirebaseEventsActivity.class))
         );
->>>>>>> DA1
     }
+
+    // Date/time picker methods from version 2
     private void showDateTimePicker() {
         calendar = Calendar.getInstance();
         DatePickerDialog datePicker = new DatePickerDialog(this, (view, year, month, day) -> {

@@ -83,9 +83,11 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    app:shapeAppearanceOverlay="@style/CircleImageView"
+                    app:shapeAppearanceOverlay="@null"
                     android:src="@drawable/ic_calendar_month"
-                    android:tint="@color/primary"/>
+                    android:tint="@color/primary"
+                    app:cornerFamily="rounded"
+                    app:cornerSize="50%" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -124,9 +126,11 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    app:shapeAppearanceOverlay="@style/CircleImageView"
-                    android:src="@drawable/ic_location"
-                    android:tint="@color/primary"/>
+                    app:shapeAppearanceOverlay="@null"
+                    android:src="@drawable/ic_calendar_month"
+                    android:tint="@color/primary"
+                    app:cornerFamily="rounded"
+                    app:cornerSize="50%" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

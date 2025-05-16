@@ -1,10 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
-<<<<<<< HEAD
-    id("com.google.gms.google-services")
-=======
     alias(libs.plugins.google.gms.google.services)
->>>>>>> DA1
 }
 
 android {

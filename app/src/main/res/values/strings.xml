@@ -14,7 +14,7 @@
     <string name="upload_success">Upload successful</string>
     <string name="upload_error">Upload failed</string>
     <string name="select_file_type">Select File Type</string>
-    <string name="app_name">appointment</string>
+    <!-- Removed duplicate app_name -->
     <string name="delete_task">Delete Event</string>
     <string name="desc">List Event</string>
     <string name="back">Back</string>
