@@ -80,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 case 2:
                     tab.setText("Events");
                     break;
+                case 3:
+                    tab.setText("Worklog"); // Add new tab
+                    break;
             }
         }).attach();
         
