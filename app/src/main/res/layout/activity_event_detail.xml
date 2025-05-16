@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/ivEventCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/default_event_cover"
+                android:contentDescription="Event cover image"/>
+
+            <!-- Event Type Chip -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipEventType"
+                style="@style/Widget.Material3.Chip.Assist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:chipBackgroundColor="@color/secondary_container"
+                app:chipStrokeColor="@color/outline"
+                app:chipStrokeWidth="1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/app_name"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Main Content -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:divider="@drawable/divider_horizontal"
+            android:showDividers="middle"
+            android:dividerPadding="16dp">
+
+            <!-- Title Section -->
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="@color/on_surface"
+                android:lineSpacingMultiplier="1.1"
+                android:layout_marginBottom="8dp"
+                tools:text="Team Meeting with Design Department"/>
+            <!-- Loại sự kiện -->
+            <TextView
+                android:id="@+id/tvType"
+                android:textColor="@color/primary_dark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <!-- DateTime Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="12dp"
+                android:gravity="center_vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:shapeAppearanceOverlay="@style/CircleImageView"
+                    android:src="@drawable/ic_calendar_month"
+                    android:tint="@color/primary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="16dp">
+
+                    <TextView
+                        android:text="DATE And TIME"
+                        android:textAllCaps="true"
+                        android:textColor="@color/outline"
+                        android:textSize="12sp"
+                        android:letterSpacing="0.1"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"/>
+
+                    <TextView
+                        android:id="@+id/tvDateTime"
+                        android:textSize="16sp"
+                        android:textColor="@color/on_surface"
+                        android:lineSpacingMultiplier="1.2"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        tools:text="Fri, 15 Dec 2023 • 14:00 - 15:30"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Location Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="12dp"
+                android:gravity="center_vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:shapeAppearanceOverlay="@style/CircleImageView"
+                    android:src="@drawable/ic_location"
+                    android:tint="@color/primary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="16dp">
+
+                    <TextView
+                        android:text="LOCATION"
+                        android:textAllCaps="true"
+                        android:textColor="@color/outline"
+                        android:textSize="12sp"
+                        android:letterSpacing="0.1"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"/>
+
+                    <TextView
+                        android:id="@+id/tvLocation"
+                        android:textSize="16sp"
+                        android:textColor="@color/on_surface"
+                        android:lineSpacingMultiplier="1.2"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        tools:text="Conference Room 5A, Sunrise Building"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Description Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingVertical="12dp">
+
+                <TextView
+                    android:text="DESCRIPTION"
+                    android:textAllCaps="true"
+                    android:textColor="@color/outline"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.1"
+                    android:layout_marginBottom="4dp"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"/>
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/on_surface_variant"
+                    android:lineSpacingMultiplier="1.4"
+                    tools:text="Quarterly product design review meeting with all team members. Please prepare:- Design concepts- User feedback analysis- Prototype demo"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:gravity="end"
+            android:divider="@drawable/divider_vertical"
+            android:showDividers="middle">
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                app:icon="@drawable/ic_edit"
+                app:iconTint="@color/primary"
+                app:iconPadding="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                app:icon="@drawable/ic_delete"
+                app:iconTint="@color/error"
+                app:iconPadding="8dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
