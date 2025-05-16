@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,6 +32,7 @@
                     android:layout_height="wrap_content"
                     android:text="Workout Progress"
                     android:textSize="18sp"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"/>
 
@@ -54,12 +57,13 @@
                             android:text="3"
                             android:textSize="24sp"
                             android:textStyle="bold"
-                            android:textColor="@color/primary"/>
+                            android:textColor="@color/black"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Workouts"
+                            android:textColor="@color/text_secondary"
                             android:textSize="12sp"/>
                     </LinearLayout>
 
@@ -78,12 +82,13 @@
                             android:text="135"
                             android:textSize="24sp"
                             android:textStyle="bold"
-                            android:textColor="@color/primary"/>
+                            android:textColor="@color/black"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Minutes"
+                            android:textColor="@color/text_secondary"
                             android:textSize="12sp"/>
                     </LinearLayout>
 
@@ -102,12 +107,13 @@
                             android:text="1020"
                             android:textSize="24sp"
                             android:textStyle="bold"
-                            android:textColor="@color/primary"/>
+                            android:textColor="@color/black"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Calories"
+                            android:textColor="@color/text_secondary"
                             android:textSize="12sp"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -121,7 +127,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -134,6 +141,7 @@
                     android:layout_height="wrap_content"
                     android:text="Add New Workout"
                     android:textSize="18sp"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"/>
 
@@ -220,13 +228,15 @@
             android:layout_height="wrap_content"
             android:text="Workout History"
             android:textSize="18sp"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_workouts"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
     </LinearLayout>
 
     <!-- FAB to add new workout -->
@@ -237,6 +247,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@android:drawable/ic_input_add"
-        app:tint="@android:color/white"/>
+        app:tint="@color/white"
+        android:backgroundTint="@color/black"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

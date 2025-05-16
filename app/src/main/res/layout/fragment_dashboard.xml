@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fillViewport="true">
 
     <LinearLayout
@@ -10,25 +11,24 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Step Counter Box from Version 2 -->
+        <!-- Step Counter Box -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#1E1E1E"
+            android:background="@color/white"
             android:orientation="vertical"
             android:padding="24dp"
             android:gravity="center"
             android:layout_marginBottom="16dp"
-            android:elevation="6dp"
-            android:clipToOutline="true"
+            android:elevation="2dp"
             android:outlineProvider="background">
 
             <TextView
                 android:id="@+id/tv_dashboard_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="🚶‍♂️ Đếm bước chân hôm nay"
-                android:textColor="#FFFFFF"
+                android:text="🚶‍♂️ Daily Steps"
+                android:textColor="@color/black"
                 android:textSize="26sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="12dp"/>
@@ -37,8 +37,8 @@
                 android:id="@+id/tv_step_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 bước"
-                android:textColor="#4CAF50"
+                android:text="0 steps"
+                android:textColor="@color/black"
                 android:textSize="48sp"
                 android:textStyle="bold"/>
             
@@ -46,8 +46,8 @@
                 android:id="@+id/tv_total_steps_sensor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 bước"
-                android:textColor="#4CAF50"
+                android:text="0 steps total"
+                android:textColor="@color/text_secondary"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
         </LinearLayout>
