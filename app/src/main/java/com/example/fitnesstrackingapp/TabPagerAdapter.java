@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class TabPagerAdapter extends FragmentStateAdapter {
-    private static final int TAB_COUNT = 4; // Increased from 3 to 4
+    private static final int TAB_COUNT = 5; 
     
     public TabPagerAdapter(FragmentActivity activity) {
         super(activity);
@@ -23,7 +23,9 @@ public class TabPagerAdapter extends FragmentStateAdapter {
             case 2:
                 return new EventManagementFragment();
             case 3:
-                return new WorklogFragment(); // Add new Worklog fragment
+                return new WorklogFragment(); 
+            case 4:
+                return new ChatbotFragment();
             default:
                 return new DashboardFragment();
         }
