@@ -77,16 +77,16 @@ public class ChatbotFragment extends Fragment {
         // Initialize emotion buttons
         view.findViewById(R.id.btnHappy)
                 .setOnClickListener(v -> selectEmotion("Vui vẻ",
-                        "Bạn hãy trả lời với giọng điệu vui vẻ, lạc quan, yêu đời"));
+                        "Please adopt a bright, energetic voice full of warmth and enthusiasm—think sunshine, smiles, and an irresistible sense of optimism"));
         view.findViewById(R.id.btnSad)
-                .setOnClickListener(v -> selectEmotion("Buồn",
-                        "Bạn hãy trả lời với giọng điệu buồn bã, trầm lắng nhưng vô cùng sâu sắc"));
+                .setOnClickListener(v -> selectEmotion("Trầm lắng",
+                        "Please speak in a quietly somber, reflective tone that conveys heartfelt sorrow and poetic depth, as if sharing a bittersweet memory"));
         view.findViewById(R.id.btnAngry)
                 .setOnClickListener(v -> selectEmotion("Cởi mở",
-                        "Bạn hãy trả lời với tính cách vô cùng cởi mở, thân thiện, hòa đồng"));
+                        "Please respond as an open-hearted, welcoming companion—warm, approachable, and eager to connect."));
         view.findViewById(R.id.btnNeutral)
-                .setOnClickListener(v -> selectEmotion("Bình thường",
-                        "Bạn hãy trả lời với giọng điệu trung lập, khách quan."));
+                .setOnClickListener(v -> selectEmotion("Điềm tĩnh",
+                        "Please maintain a calm, impartial tone—clear, concise, and free of bias, focusing strictly on facts and logical clarity"));
 
         return view;
     }
