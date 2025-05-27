@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- App theme -->
+    <style name="Theme.AIChatBot" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Màu chính ứng dụng -->
+        <item name="colorPrimary">@color/primary_light</item>
+        <item name="colorOnPrimary">@color/primary_light</item>
+    </style>
+
+</resources>
