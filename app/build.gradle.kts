@@ -64,6 +64,11 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-auth")
 
+    // Thêm App Check
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    // hoặc cho debug
+    implementation("com.google.firebase:firebase-appcheck-debug")
+
     // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

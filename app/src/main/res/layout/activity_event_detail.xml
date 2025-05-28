@@ -31,16 +31,21 @@
             <!-- Event Type Chip -->
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipEventType"
-                style="@style/Widget.Material3.Chip.Assist"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:minHeight="48dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                app:ensureMinTouchTargetSize="true"
                 app:chipBackgroundColor="@color/secondary_container"
                 app:chipStrokeColor="@color/outline"
                 app:chipStrokeWidth="1dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/app_name"/>
+                android:text="Loại sự kiện" />
+
 
         </com.google.android.material.card.MaterialCardView>
 

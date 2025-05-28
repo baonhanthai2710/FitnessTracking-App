@@ -1,8 +1,11 @@
 package com.example.fitnesstrackingapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
@@ -125,7 +128,19 @@ public class CloudStorageActivity extends AppCompatActivity {
         return result;
     }
     
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = 
+            (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    
     private void uploadFile(Uri fileUri, String fileName, String fileType) {
+        if (!isNetworkAvailable()) {
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
         if (mAuth.getCurrentUser() == null) {
             signInAnonymously();
             return;
@@ -185,20 +200,50 @@ public class CloudStorageActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
             progressText.setVisibility(View.GONE);
             
-            Toast.makeText(CloudStorageActivity.this, getString(R.string.upload_error) + ": " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            // Log chi tiết lỗi
+            e.printStackTrace();
+            
+            String errorMessage = "Upload failed";
+            if (e.getMessage() != null) {
+                errorMessage += ": " + e.getMessage();
+            }
+            
+            Toast.makeText(CloudStorageActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+            
+            // Nếu lỗi authentication, thử sign in lại
+            if (e.getMessage() != null && e.getMessage().contains("auth")) {
+                signInAnonymously();
+            }
         });
     }
     
     private void signInAnonymously() {
+        // Kiểm tra nếu đã sign in
+        if (mAuth.getCurrentUser() != null) {
+            loadUserFiles();
+            return;
+        }
+        
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Signed in successfully, now load files
+                        Toast.makeText(CloudStorageActivity.this, 
+                                "Authentication successful", 
+                                Toast.LENGTH_SHORT).show();
                         loadUserFiles();
                     } else {
+                        String errorMessage = "Authentication failed";
+                        if (task.getException() != null) {
+                            errorMessage += ": " + task.getException().getMessage();
+                        }
                         Toast.makeText(CloudStorageActivity.this, 
-                                "Authentication failed: " + task.getException(), 
-                                Toast.LENGTH_SHORT).show();
+                                errorMessage, 
+                                Toast.LENGTH_LONG).show();
+                        
+                        // Log chi tiết lỗi
+                        if (task.getException() != null) {
+                            task.getException().printStackTrace();
+                        }
                     }
                 });
     }
