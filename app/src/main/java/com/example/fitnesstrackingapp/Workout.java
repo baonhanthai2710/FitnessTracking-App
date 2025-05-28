@@ -3,12 +3,15 @@ package com.example.fitnesstrackingapp;
 import java.util.Date;
 
 public class Workout {
+    private String id;
     private String type;
-    private int duration;  // in minutes
+    private int duration;
     private int caloriesBurned;
     private String notes;
     private Date date;
+    private long timestamp; // Thêm timestamp để dễ sắp xếp
     
+    // Cần constructor trống cho Firebase Deserialization
     public Workout() {
     }
     
@@ -18,6 +21,16 @@ public class Workout {
         this.caloriesBurned = caloriesBurned;
         this.notes = notes;
         this.date = date;
+        this.timestamp = date.getTime();
+    }
+    
+    // Getters và setters
+    public String getId() {
+        return id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
     }
     
     public String getType() {
@@ -58,5 +71,15 @@ public class Workout {
     
     public void setDate(Date date) {
         this.date = date;
+        this.timestamp = date.getTime();
+    }
+    
+    public long getTimestamp() {
+        return timestamp;
+    }
+    
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+        this.date = new Date(timestamp);
     }
 }

@@ -24,7 +24,7 @@ public class FirebaseHelper {
 
         // Đảm bảo chỉ khởi tạo 1 lần
         if (database == null) {
-            database = FirebaseDatabase.getInstance();
+            database = FirebaseDatabase.getInstance("https://fitnessapp-bbf6f-default-rtdb.asia-southeast1.firebasedatabase.app");
         }
         dbRef = database.getReference("events");
     }
