@@ -38,7 +38,7 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
-                android:text="Dashboard"
+                android:text="Statistic"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:background="@drawable/btn_square_rounded"/>
@@ -51,7 +51,7 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
-                android:text="Tính Năng 2"
+                android:text="Worklog"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:background="@drawable/btn_square_rounded"/>
@@ -64,7 +64,7 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
-                android:text="Tính Năng 3"
+                android:text="Event"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:background="@drawable/btn_square_rounded"/>
@@ -77,7 +77,7 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
-                android:text="Tính Năng 4"
+                android:text="AI chatbot"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:background="@drawable/btn_square_rounded"/>
